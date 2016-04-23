@@ -1,20 +1,38 @@
-
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-       </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-      </div>
+<div class="container">
+  <div class="row">
+    <div id="results-table">
+      <table class="table table-hover" style="margin-bottom: 0 !important;">
+        <thead>
+          <tr>
+            <th>Origin</th>
+            <th>Destination</th>
+            <th>Departure</th>
+            <th>Return</th>
+            <th>Outbound stops</th>
+            <th>Inbound stops</th>
+            <th>Adults</th>
+            <th>Children</th>
+            <th>Infants</th>
+            <th>Currency</th>
+            <th>Total price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="flight in flights">
+            <td>({{ flight.origin.iata_code }}) {{ flight.origin.name }}</td>
+            <td>({{ flight.destination.iata_code }}) {{ flight.destination.name }}</td>
+            <td>{{ flight.departure }}</td>
+            <td>{{ flight.return }}</td>
+            <td>{{ flight.outbound_stops }}</td>
+            <td>{{ flight.inbound_stops }}</td>
+            <td>{{ flight.adults }}</td>
+            <td>{{ flight.children }}</td>
+            <td>{{ flight.infants }}</td>
+            <td>{{ flight.currency }}</td>
+            <td>{{ flight.total_price }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

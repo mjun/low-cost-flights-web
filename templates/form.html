@@ -1,137 +1,73 @@
-
-  <div class="container">
+<div class="container">
     <div class="row">
-      <div id="search-form" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div style="padding: 15px 15px 0 15px;">
-          <form>
-            <div class="form-group row">
-              <div class="col-md-8">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" placeholder="Origin">
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" placeholder="Departure">
-                </div>
-              </div>
+        <div id="search-form" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" ng-controller="flightSearchController">
+            <div style="padding: 15px 15px 0 15px;">
+                <form>
+                    <div class="form-group row">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" placeholder="Origin" ng-model="originInput" ng-keyup="findAirports(originInput)"
+                                        bs3-typeahead bs3-promise="airports" bs3-displayText="airportDisplayText" bs3-afterSelect="afterOriginAirportSelect">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" placeholder="Departure" ng-model="params.departure">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" placeholder="Destination" ng-keyup="findAirports(destinationInput)" ng-model="destinationInput"
+                                        bs3-typeahead bs3-promise="airports" bs3-displayText="airportDisplayText" bs3-afterSelect="afterDestinationAirportSelect">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" placeholder="Return" ng-model="params.return">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" placeholder="Adults" ng-model="params.adults">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" placeholder="Children" ng-model="params.children">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" placeholder="Infants" ng-model="params.infants">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-money" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" placeholder="Currency" ng-model="params.currency">
+                            </div>
+                        </div>
+                    </div>
             </div>
-            <div class="form-group row">
-              <div class="col-md-8">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" placeholder="Destination">
+            <div style="background-color: #ffffff; border-top: 1px solid #ccc; padding: 7px 15px 7px 15px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-info pull-right" ng-click="search(params)"><strong>Search</strong></button>
+                    </div>
                 </div>
-              </div>
-              <div class="col-md-4">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" placeholder="Return">
-                </div>
-              </div>
+                </form>
             </div>
-            <div class="form-group row">
-              <div class="col-md-3">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" placeholder="Adults">
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" placeholder="Children">
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" placeholder="Infants">
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-money" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" placeholder="Currency">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style="background-color: #ffffff; border-top: 1px solid #ccc; padding: 7px 15px 7px 15px;">
-            <div class="row">
-              <div class="col-md-12">
-                <button type="submit" class="btn btn-info pull-right"><strong>Search</strong></button>
-              </div>
-            </div>
-          </form>
         </div>
-      </div>
     </div>
-  </div>
-
-  <div class="container">
-    <div class="row">
-      <div id="results-table" class="col-lg-12 col-md-12">
-        <table class="table table-hover" style="margin-bottom: 0 !important;">
-          <thead>
-            <tr>
-              <th>Origin</th>
-              <th>Destination</th>
-              <th>Departure</th>
-              <th>Return</th>
-              <th>Outbound stops</th>
-              <th>Inbound stops</th>
-              <th>Adults</th>
-              <th>Children</th>
-              <th>Infants</th>
-              <th>Currency</th>
-              <th>Total price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>John</td>
-              <td>Doe</td>
-              <td>john@example.com</td>
-              <td>John</td>
-              <td>Doe</td>
-              <td>john@example.com</td>
-              <td>John</td>
-              <td>Doe</td>
-              <td>john@example.com</td>
-              <td>John</td>
-              <td>Doe</td>
-            </tr>
-            <tr>
-              <td>Mary</td>
-              <td>Moe</td>
-              <td>mary@example.com</td>
-              <td>Mary</td>
-              <td>Moe</td>
-              <td>mary@example.com</td>
-              <td>Mary</td>
-              <td>Moe</td>
-              <td>mary@example.com</td>
-              <td>Mary</td>
-              <td>Moe</td>
-            </tr>
-            <tr>
-              <td>July</td>
-              <td>Dooley</td>
-              <td>july@example.com</td>
-              <td>July</td>
-              <td>Dooley</td>
-              <td>july@example.com</td>
-              <td>July</td>
-              <td>Dooley</td>
-              <td>july@example.com</td>
-              <td>July</td>
-              <td>Dooley</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+</div>
