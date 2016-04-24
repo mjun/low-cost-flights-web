@@ -1,61 +1,78 @@
 <div class="container">
     <div class="row">
-        <div id="search-form" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" ng-controller="flightSearchController">
+        <form id="search-form" class="col-lg-8 col-lg-offset-2 col-xs-10 col-xs-offset-1" name="searchForm" ng-submit="search(params)" novalidate>
             <div style="padding: 15px 15px 0 15px;">
                 <form>
-                    <div class="form-group row">
-                        <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-8 form-group" ng-class="{ 'has-error' : searchForm.origin.$invalid && !searchForm.origin.$pristine }">
+                            <label for="origin">Origin</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" placeholder="Origin" ng-model="originInput" ng-keyup="findAirports(originInput)"
-                                        bs3-typeahead bs3-promise="airports" bs3-displayText="airportDisplayText" bs3-afterSelect="afterOriginAirportSelect">
+                                <input id="origin" name="origin" type="text" class="form-control" placeholder="Zagreb Airport (ZAG)" ng-model="originName" ng-keyup="findAirports(originName, 20)" uib-typeahead="airport.name+' ('+airport.iata_code+')' for airport in airports" typeahead-on-select="afterAirportSelect($item,'origin')"
+                                    typeahead-wait-ms="200" typeahead-min-length="3" autocomplete="off" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 form-group" ng-class="{ 'has-error' : searchForm.departure.$invalid && !searchForm.departure.$pristine }">
+                            <label for="departure">Departure</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" placeholder="Departure" ng-model="params.departure">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" ng-click="showDatepicker($event, 'departure')"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                                </span>
+                                <input id="departure" name="departure" type="text" class="form-control" placeholder="{{ departurePlaceholder}}" ng-model="params.departure" ng-change="updateDatepickerReturnMinDate(params.departure)" uib-datepicker-popup="dd.MM.yyyy." datepicker-options="departureDatepicker.options"
+                                    is-open="departureDatepicker.show" autocomplete="off" required>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-8 form-group" ng-class="{ 'has-error' : searchForm.destination.$invalid && !searchForm.destination.$pristine }">
+                            <label for="destination">Destination</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" placeholder="Destination" ng-keyup="findAirports(destinationInput)" ng-model="destinationInput"
-                                        bs3-typeahead bs3-promise="airports" bs3-displayText="airportDisplayText" bs3-afterSelect="afterDestinationAirportSelect">
+                                <span class="input-group-addon"><i class="fa fa-plane fa-rotate-90" aria-hidden="true"></i></span>
+                                <input id="destination" name="destination" type="text" class="form-control" placeholder="Zemunik Airport (ZAD)" ng-model="destinationName" ng-keyup="findAirports(destinationName, 20)" uib-typeahead="airport.name+' ('+airport.iata_code+')' for airport in airports"
+                                    typeahead-on-select="afterAirportSelect($item,'destination')" typeahead-wait-ms="200" typeahead-min-length="3" autocomplete="off" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 form-group" ng-class="{ 'has-error' : searchForm.return.$invalid && !searchForm.return.$pristine }">
+                            <label for="return">Return</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" placeholder="Return" ng-model="params.return">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" ng-click="showDatepicker($event, 'return')"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                              </span>
+                                <input id="return" name="return" type="text" class="form-control" placeholder="{{ returnPlaceholder }}" ng-model="params.return" uib-datepicker-popup="dd.MM.yyyy." datepicker-options="returnDatepicker.options" is-open="returnDatepicker.show" autocomplete="off">
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-3 form-group" ng-class="{ 'has-error' : searchForm.adults.$invalid && !searchForm.adults.$pristine }">
+                            <label for="adults">Adults</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" placeholder="Adults" ng-model="params.adults">
+                                <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                                <input id="adults" name="adults" type="number" min="1" max="10" class="form-control" placeholder="1" ng-model="params.adults" autocomplete="off" required>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 form-group" ng-class="{ 'has-error' : searchForm.children.$invalid && !searchForm.children.$pristine }">
+                            <label for="children">Children</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" placeholder="Children" ng-model="params.children">
+                                <span class="input-group-addon"><i class="fa fa-user" style="font-size: 90%" aria-hidden="true"></i></span>
+                                <input id="children" name="children" type="number" min="0" max="10" class="form-control" placeholder="0" ng-model="params.children" autocomplete="off">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 form-group" ng-class="{ 'has-error' : searchForm.infants.$invalid && !searchForm.infants.$pristine }">
+                            <label for="infants">Infants</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" placeholder="Infants" ng-model="params.infants">
+                                <span class="input-group-addon"><i class="fa fa-user" style="font-size: 80%" aria-hidden="true"></i></span>
+                                <input id="infants" name="infants" type="number" min="0" max="10" class="form-control" placeholder="0" ng-model="params.infants" autocomplete="off">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 form-group" ng-class="{ 'has-error' : searchForm.currency.$invalid && !searchForm.currency.$pristine }">
+                            <label for="currency">Currency</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" placeholder="Currency" ng-model="params.currency">
+                                <select id="currency" name="currency" class="form-control" ng-model="params.currency" autocomplete="off" required>
+                                    <option>EUR</option>
+                                    <option>USD</option>
+                                    <option>HRK</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -63,11 +80,11 @@
             <div style="background-color: #ffffff; border-top: 1px solid #ccc; padding: 7px 15px 7px 15px;">
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-info pull-right" ng-click="search(params)"><strong>Search</strong></button>
+                        <button type="submit" class="btn btn-info pull-right" ng-disabled="searchForm.$invalid"><strong>Search</strong></button>
                     </div>
                 </div>
                 </form>
             </div>
-        </div>
+        </form>
     </div>
 </div>
