@@ -17,6 +17,7 @@ body {
     top: 0;
     z-index: 5001;
 }
+
 .overlay-content {
     display: flex;
     margin: 0 auto;
