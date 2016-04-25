@@ -52,7 +52,7 @@ app.factory("lowCostFlightsService", ['$http', '$q', function($http, $q) {
     }
 }]);
 
-app.controller("flightSearchController", ['$scope', '$filter', '$timeout', 'lowCostFlightsService', function($scope, $filter, $timeout, lowCostFlightsService) {
+app.controller("flightSearchController", ['$scope', '$filter', '$timeout', '$q', 'lowCostFlightsService', function($scope, $filter, $timeout, $q, lowCostFlightsService) {
     $scope.loading = false;
     $scope.departurePlaceholder = $filter('date')(new Date(), 'dd.MM.yyyy');
     $scope.returnPlaceholder = $filter('date')(new Date(new Date().getTime() + 24 * 60 * 60 * 1000), 'dd.MM.yyyy');
@@ -66,7 +66,6 @@ app.controller("flightSearchController", ['$scope', '$filter', '$timeout', 'lowC
         infants: 0,
         currency: "EUR"
     };
-    $scope.airports = [];
     $scope.flights = [];
     $scope.showResults = false;
 
@@ -79,12 +78,16 @@ app.controller("flightSearchController", ['$scope', '$filter', '$timeout', 'lowC
     };
 
     $scope.findAirports = function(name, limit) {
+        // this callback must return promise
+        // @see: http://stackoverflow.com/a/33210499
+        var airports = [];
+        var deferred = $q.defer();
         if (name && name.length >= 3) {
-            $scope.airports = [];
             if (name.length == 3 && name == name.toUpperCase()) {
                 lowCostFlightsService.getAirport(name).then(
                     function(response) {
-                        $scope.airports = [response];
+                        airports = [response];
+                        return deferred.resolve(airports);
                     },
                     function(errResponse) {
                         console.error("No airport with IATA code " + name);
@@ -93,7 +96,8 @@ app.controller("flightSearchController", ['$scope', '$filter', '$timeout', 'lowC
             } else {
                 lowCostFlightsService.findAirports(name, limit).then(
                     function(response) {
-                        $scope.airports = response;
+                        airports = response;
+                        return deferred.resolve(airports);
                     },
                     function(errResponse) {
                         console.error('Error while fetching airports');
@@ -101,6 +105,7 @@ app.controller("flightSearchController", ['$scope', '$filter', '$timeout', 'lowC
                 );
             }
         }
+        return deferred.promise;
     };
 
     $scope.search = function(params) {
