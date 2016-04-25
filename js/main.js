@@ -1,4 +1,4 @@
-var BACKEND_API_URL = "http://localhost:8080";
+var BACKEND_API_URL = "http://212.92.222.66:8080";
 
 var app = angular.module('lowCostFlightsWebApp', ['ngAnimate', 'ui.bootstrap']);
 

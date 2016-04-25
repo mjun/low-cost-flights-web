@@ -71,3 +71,7 @@ body {
 #results-table thead {
     background-color: #ffffff;
 }
+#results-table thead th {
+    text-align: center;
+    vertical-align: middle;
+}

@@ -9,7 +9,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-plane" aria-hidden="true"></i></span>
                                 <input id="origin" name="origin" type="text" class="form-control" placeholder="Zagreb Airport (ZAG)" ng-model="originName" ng-keyup="findAirports(originName, 20)" uib-typeahead="airport.name+' ('+airport.iata_code+')' for airport in airports" typeahead-on-select="afterAirportSelect($item,'origin')"
-                                    typeahead-wait-ms="200" typeahead-min-length="3" autocomplete="off" required>
+                                    typeahead-wait-ms="100" typeahead-min-length="3" autocomplete="off" required>
                             </div>
                         </div>
                         <div class="col-md-4 form-group" ng-class="{ 'has-error' : searchForm.departure.$invalid && !searchForm.departure.$pristine }">
@@ -29,7 +29,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-plane fa-rotate-90" aria-hidden="true"></i></span>
                                 <input id="destination" name="destination" type="text" class="form-control" placeholder="Zemunik Airport (ZAD)" ng-model="destinationName" ng-keyup="findAirports(destinationName, 20)" uib-typeahead="airport.name+' ('+airport.iata_code+')' for airport in airports"
-                                    typeahead-on-select="afterAirportSelect($item,'destination')" typeahead-wait-ms="200" typeahead-min-length="3" autocomplete="off" required>
+                                    typeahead-on-select="afterAirportSelect($item,'destination')" typeahead-wait-ms="100" typeahead-min-length="3" autocomplete="off" required>
                             </div>
                         </div>
                         <div class="col-md-4 form-group" ng-class="{ 'has-error' : searchForm.return.$invalid && !searchForm.return.$pristine }">
